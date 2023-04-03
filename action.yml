@@ -23,8 +23,7 @@ runs:
     # try to execute the makefile
     - name: "Create binary file"
       run: |
-        make
-        make clean
+        make > result.txt
         if [ ! -f "$(inputs.binary)" ]; then
           echo "Binary file not found"
           exit 1
@@ -62,3 +61,10 @@ runs:
         fi
       shell: bash
       id: return
+outputs:
+  tests:
+    description: "The tests results"
+    value: ${{ steps.return.outputs.tests }}
+  coverage:
+    description: "The coverage results"
+    value: ${{ steps.return.outputs.coverage }}
