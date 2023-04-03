@@ -12,13 +12,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # Check if the makefile exists
     - name : "Execute makefile"
       shell: bash
       run: |
-        if [ -f "Makefile" ]; then
-          echo "Makefile found"
-        else
-          echo "Makefile not found"
+        if [ ! -f "Makefile" ]; then
+          echo "\033[31mMakefile not found\033[0m"
           exit 1
         fi
     # try to execute the makefile
