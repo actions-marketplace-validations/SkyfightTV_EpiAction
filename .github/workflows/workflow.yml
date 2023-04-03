@@ -6,9 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
-        id: hello
         with:
-          who-to-greet: "Antoine"
+          binary: "mysh"
       - name: "Check output"
         run: |
           echo "Hello Antoine!" >> expected.txt

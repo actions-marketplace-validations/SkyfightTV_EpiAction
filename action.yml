@@ -1,25 +1,49 @@
 name: "EpiAction"
 description: "An action for Epitech"
 author: "Antoine BERGER"
-labels: ["epitech"]
 branding:
   icon: "mic"
   color: "blue"
 inputs:
-  name:
-    description: "Who to greet"
+  binary:
+    description: "The name of the binary file"
     required: true
-    default: "World"
+    default: "a.out"
 runs:
   using: "composite"
-  jobs:
-    hello:
-      steps:
-        - run: echo "Hello ${{ inputs.name }}!"
-        - run: echo "::set-output name=time::$(date)"
-          id: step1
-        - run: echo "::set-output name=who::$(whoami)"
-          id: step2
-      outputs:
-        time: ${{ steps.step1.outputs.time }}
-        who: ${{ steps.step2.outputs.time }}
+  steps:
+    # try to execute the makefile
+    - name: "Create binary file"
+      run: make
+      shell: bash
+    - name: "Clean object files"
+      if: always()
+      run: make clean
+      shell: bash
+    # try to run the program
+    - name: "Run program"
+      if: always()
+      run: ./$(inputs.binary)
+      shell: bash
+    # try to run the make tests_run
+    - name: "Run unit tests"
+      if: always()
+      run: make tests_run
+      shell: bash
+    # try to run the coverage
+    - name: "Run coverage"
+      if: always()
+      run: make coverage
+      shell: bash
+    # return if it fails or not
+    - name: "Return status"
+      if: always()
+      run: |
+        if [ -f "tests/units.xml" ]; then
+          echo "##[set-output name=tests;]$(cat tests/units.xml)"
+        fi
+        if [ -f "tests/coverage.xml" ]; then
+          echo "##[set-output name=coverage;]$(cat tests/coverage.xml)"
+        fi
+      shell: bash
+      id: return
