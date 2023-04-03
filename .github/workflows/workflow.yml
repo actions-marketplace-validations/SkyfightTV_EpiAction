@@ -7,10 +7,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          binary: "mysh"
-      - name: "Check output"
-        run: |
-          echo "Hello Antoine!" >> expected.txt
-          echo "Goodbye Antoine!" >> expected.txt
-          diff expected.txt output.txt
-          rm expected.txt output.txt
+          binary: "bsq"
