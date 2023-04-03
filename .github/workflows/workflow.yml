@@ -6,8 +6,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: hello
         with:
-          name: "Antoine"
+          who-to-greet: "Antoine"
       - name: "Check output"
         run: |
           echo "Hello Antoine!" >> expected.txt
