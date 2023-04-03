@@ -1,8 +1,10 @@
 name: "EpiAction"
 description: "An action for Epitech"
 author: "Antoine BERGER"
-color: "blue"
-icon: "mic"
+labels: ["epitech"]
+branding:
+  icon: "mic"
+  color: "blue"
 inputs:
   name:
     description: "Who to greet"
