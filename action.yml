@@ -12,8 +12,18 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name : "Execute makefile"
+      shell: bash
+      run: |
+        if [ -f "Makefile" ]; then
+          echo "Makefile found"
+        else
+          echo "Makefile not found"
+          exit 1
+        fi
     # try to execute the makefile
     - name: "Create binary file"
+      if: -f "Makefile"
       run: make
       shell: bash
     - name: "Clean object files"
