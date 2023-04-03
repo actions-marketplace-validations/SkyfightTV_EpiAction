@@ -17,12 +17,12 @@ runs:
       run: make
       shell: bash
     - name: "Clean object files"
-      if: always()
+      needs: "Create binary file"
       run: make clean
       shell: bash
     # try to run the program
     - name: "Run program"
-      if: always()
+      needs: "Clean object files"
       run: ./$(inputs.binary)
       shell: bash
     # try to run the make tests_run
