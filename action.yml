@@ -17,22 +17,37 @@ runs:
       shell: bash
       run: |
         if [ ! -f "Makefile" ]; then
-          echo "\033[31mMakefile not found\033[0m"
+          echo "Makefile not found"
           exit 1
         fi
     # try to execute the makefile
     - name: "Create binary file"
-      run: make
+      run: |
+        make
+        make clean
+        if [ ! -f "$(inputs.binary)" ]; then
+          echo "Binary file not found"
+          exit 1
+        fi
+        if [ ! -x "$(inputs.binary)" ]; then
+          echo "Binary file is not executable"
+          exit 1
+        fi
       shell: bash
-    - name: "Clean object files"
-      run: make clean
-      shell: bash
+      timeout-minutes: 2
     # try to run the program
     - name: "Run program"
-      run: ./$(inputs.binary)
+      run: |
+        ./$(inputs.binary)
+        if [ $? -ne 0 ]; then
+          echo "Program failed"
+          exit 1
+        fi
       shell: bash
+      timeout-minutes: 2
     # try to run the make tests_run
     - name: "Run unit tests"
+      if: always()
       run: make tests_run
       shell: bash
     # try to run the coverage
