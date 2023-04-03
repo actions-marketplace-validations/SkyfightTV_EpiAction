@@ -23,7 +23,6 @@ runs:
         fi
     # try to execute the makefile
     - name: "Create binary file"
-      if: -f "Makefile"
       run: make
       shell: bash
     - name: "Clean object files"
