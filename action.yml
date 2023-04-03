@@ -1,10 +1,19 @@
 name: "EpiAction"
 description: "An action for Epitech"
 author: "Antoine BERGER"
-
-jobs:
-  job1:
-    name: "Salue"
-    steps:
-      - uses: actions/checkout@v2
-      - run: ls
+color: "blue"
+icon: "mic"
+inputs:
+  name:
+    description: "Who to greet"
+    required: true
+    default: "World"
+runs:
+  using: "composite"
+  steps:
+    - name: "Hello"
+      run: echo "Hello ${{ inputs.name }}!"
+      shell: bash
+    - name: "Goodbye"
+      run: echo "Goodbye ${{ inputs.name }}!"
+      shell: bash
