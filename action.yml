@@ -12,10 +12,14 @@ inputs:
     default: "World"
 runs:
   using: "composite"
-  steps:
-    - name: "Hello"
-      run: echo "Hello ${{ inputs.name }}!"
-      shell: bash
-    - name: "Goodbye"
-      run: echo "Goodbye ${{ inputs.name }}!"
-      shell: bash
+  jobs:
+    hello:
+      steps:
+        - run: echo "Hello ${{ inputs.name }}!"
+        - run: echo "::set-output name=time::$(date)"
+          id: step1
+        - run: echo "::set-output name=who::$(whoami)"
+          id: step2
+      outputs:
+        time: ${{ steps.step1.outputs.time }}
+        who: ${{ steps.step2.outputs.time }}
