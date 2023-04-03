@@ -23,7 +23,6 @@ runs:
       shell: bash
     # try to run the program
     - name: "Run program"
-      needs: "Clean object files"
       run: ./$(inputs.binary)
       shell: bash
     # try to run the make tests_run
