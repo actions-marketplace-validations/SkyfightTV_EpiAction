@@ -14,11 +14,9 @@ runs:
   steps:
     # try to execute the makefile
     - name: "Create binary file"
-      id: make
       run: make
       shell: bash
     - name: "Clean object files"
-      if: steps.make.outcome == 'failure'
       run: make clean
       shell: bash
     # try to run the program
@@ -27,17 +25,14 @@ runs:
       shell: bash
     # try to run the make tests_run
     - name: "Run unit tests"
-      if: always()
       run: make tests_run
       shell: bash
     # try to run the coverage
     - name: "Run coverage"
-      if: always()
       run: make coverage
       shell: bash
     # return if it fails or not
     - name: "Return status"
-      if: always()
       run: |
         if [ -f "tests/units.xml" ]; then
           echo "##[set-output name=tests;]$(cat tests/units.xml)"
