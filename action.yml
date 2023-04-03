@@ -34,7 +34,6 @@ runs:
           exit 1
         fi
       shell: bash
-      timeout-minutes: 2
     # try to run the program
     - name: "Run program"
       run: |
@@ -44,7 +43,6 @@ runs:
           exit 1
         fi
       shell: bash
-      timeout-minutes: 2
     # try to run the make tests_run
     - name: "Run unit tests"
       if: always()
