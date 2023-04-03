@@ -9,6 +9,10 @@ inputs:
     description: "The name of the binary file"
     required: true
     default: "a.out"
+  arguments:
+    description: "The arguments to pass to the binary file"
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -23,7 +27,7 @@ runs:
     # try to execute the makefile
     - name: "Create binary file"
       run: |
-        make > result.txt
+        make > make.txt
         if [ ! -f "${{inputs.binary}}" ]; then
           echo "Binary file not found"
           exit 1
@@ -36,11 +40,7 @@ runs:
     # try to run the program
     - name: "Run program"
       run: |
-        ./${{inputs.binary}}
-        if [ $? -ne 0 ]; then
-          echo "Program failed"
-          exit 1
-        fi
+        ./${{inputs.binary}} ${{inputs.arguments}} > binary.txt
       shell: bash
     # try to run the make tests_run
     - name: "Run unit tests"
