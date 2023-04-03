@@ -24,11 +24,11 @@ runs:
     - name: "Create binary file"
       run: |
         make > result.txt
-        if [ ! -f "$(inputs.binary)" ]; then
+        if [ ! -f "${{inputs.binary}}" ]; then
           echo "Binary file not found"
           exit 1
         fi
-        if [ ! -x "$(inputs.binary)" ]; then
+        if [ ! -x "${{inputs.binary}}" ]; then
           echo "Binary file is not executable"
           exit 1
         fi
@@ -36,7 +36,7 @@ runs:
     # try to run the program
     - name: "Run program"
       run: |
-        ./$(inputs.binary)
+        ./${{inputs.binary}}
         if [ $? -ne 0 ]; then
           echo "Program failed"
           exit 1
